@@ -1,5 +1,13 @@
 import json 
-
+#{
+#  "Name": "HeLium",
+#  "Salaire": "0",
+#  "fiscalite": {
+#    "pacse": "false",
+#    "maries": "true",
+#    "nb_enfants": "4"
+#  }
+#}
 def tmi_evaluator(salaire:int):
     if(salaire < 10226):
         tmi = 0
