@@ -13,7 +13,7 @@ def tmi_evaluator(salaire:int):
         tmi = 45
     return tmi
 
-def nb_part_fiscales(nb_enfants:int,maries:bol,pacse:bol):
+def nb_part_fiscales(nb_enfants:int,maries:str,pacse:str):
     if(maries==True or pacse==True):
         if(nb_enfants<3):
             nb_part_fiscales = 2+nb_enfants*0.5
@@ -23,7 +23,7 @@ def nb_part_fiscales(nb_enfants:int,maries:bol,pacse:bol):
         if(nb_enfants<3):
             nb_part_fiscales = 2+nb_enfants*0.5
         else:
-            nb_part_fiscales = 2+(nb_enfants-2)*1 + nb_enfants*0.5
+            nb_part_fiscales = 2+(nb_enfants-2)*1 + 1
     return nb_part_fiscales
 
 def handler(event, context):
@@ -33,5 +33,9 @@ def post_handler(event, context):
     
     myname = event["Name"]
     salaire = int(event["Salaire"])
-    response = tmi_evaluator(salaire)
-    return { "message": myname+' a une tmi de : '+str(response) }
+    response_tmi = tmi_evaluator(salaire)
+    pacse = str(event["fiscalite"]["pacse"])
+    maries = str(event["fiscalite"]["maries"])
+    nb_enfants = int(event["fiscalite"]["nb_enfants"])
+    response_fiscale = nb_part_fiscales(nb_enfants,maries,pacse)
+    return { "message": myname+' a une tmi de : '+str(response_tmi)+' . '+str(response_fiscale)+' parts' }
