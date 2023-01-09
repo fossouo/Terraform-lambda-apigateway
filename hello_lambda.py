@@ -41,9 +41,11 @@ def post_handler(event, context):
     
     myname = event["Name"]
     salaire = int(event["Salaire"])
-    response_tmi = tmi_evaluator(salaire)
+
     pacse = str(event["fiscalite"]["pacse"])
     maries = str(event["fiscalite"]["maries"])
     nb_enfants = int(event["fiscalite"]["nb_enfants"])
     response_fiscale = nb_part_fiscales(nb_enfants,maries,pacse)
+    
+    response_tmi = tmi_evaluator(salaire//response_fiscale)
     return { "message": myname+' a une tmi de : '+str(response_tmi)+' . '+str(response_fiscale)+' parts' }
