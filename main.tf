@@ -25,11 +25,16 @@ resource "aws_iam_role" "iam_role_for_lambda" {
 EOF
 }
 
+resource "aws_iam_role_policy_attachment" "basic" {
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+  role       = aws_iam_role.iam_role_for_lambda.name
+}
+
 # Here is a first lambda function that will run the code `hello_lambda.handler`
 module "lambda" {
   source  = "./lambda"
   name    = "hello_lambda"
-  runtime = "python2.7"
+  runtime = "python3.9"
   role    = "${aws_iam_role.iam_role_for_lambda.arn}"
 }
 
@@ -39,7 +44,7 @@ module "lambda_post" {
   source  = "./lambda"
   name    = "hello_lambda"
   handler = "post_handler"
-  runtime = "python2.7"
+  runtime = "python3.9"
   role    = "${aws_iam_role.iam_role_for_lambda.arn}"
 }
 
